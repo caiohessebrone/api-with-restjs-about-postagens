@@ -1,6 +1,8 @@
-export class Postagem {
+import { Document } from "mongoose";
 
-    id: number;
+
+export class Postagem extends Document {
+    
     titulo: string;
     texto: string;
     autor: string;

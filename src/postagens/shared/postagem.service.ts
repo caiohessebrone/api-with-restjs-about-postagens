@@ -1,51 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { create } from 'domain';
+import { Model } from 'mongoose';
 import { Postagem } from './postagem';
 
 @Injectable()
 export class PostagemService {
 
-    postagens: Postagem[] = [
-        {id: 1, titulo: "teste1", texto: "ola mundo 1", autor: "caio", nota: 4},
-        {id: 2, titulo: "teste2", texto: "ola mundo 2", autor: "gaby", nota: 3},
-        {id: 3, titulo: "teste3", texto: "ola mundo 3", autor: "tessio", nota: 5}
-    ]
-    getAll() {
-        return this.postagens;
+    constructor(
+        @InjectModel('Postagem') private readonly postagemModel: Model<Postagem>
+        ) {}
+
+
+    async getAll() {
+        return await this.postagemModel.find().exec();
     }
 
-    getById(id: number) {
-        return this.postagens.find(item => item.id == id);
+    getById(id: string) {
+        return this.postagemModel.findById(id).exec();
     }
 
-    create(postagem: Postagem): Postagem {
-        let lastId = 0;
-        if(this.postagens.length > 0) {
-            lastId = this.postagens[this.postagens.length -1].id;
-        }
-        postagem.id = lastId + 1;
-        this.postagens.push(postagem);
-
-        return postagem;
+    async create(postagem: Postagem) {
+        const createPostagem = new this.postagemModel(postagem);
+        return await createPostagem.save();
     }
 
-    update(postagem: Postagem): Postagem {
-        const postagemArray = this.getById(postagem.id);
-        if(postagemArray) {
-
-            postagemArray.titulo = postagem.titulo;
-            postagemArray.texto = postagem.texto;
-            postagemArray.autor = postagem.autor;
-            postagemArray.nota = postagem.nota;
-
-        }
-
-        return postagemArray;
-
+    async update(id: string, postagem: Postagem) {
+        await this.postagemModel.updateOne({ _id: id}, postagem).exec();
+        return this.getById(id);
     }
 
-    deletar(id: number) {
-        const index = this.postagens.findIndex(value => value.id == id);
-        this.postagens.splice(index, 1);
+    async deletar(id: string) {
+        return await this.postagemModel.deleteOne({ _id: id }).exec();
     }
 }

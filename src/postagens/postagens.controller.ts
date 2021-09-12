@@ -13,7 +13,7 @@ export class PostagensController {
     }
 
     @Get(':id')
-    async getById(@Param('id') id: number): Promise<Postagem> {
+    async getById(@Param('id') id: string): Promise<Postagem> {
         return this.postagemService.getById(id);
     }
 
@@ -24,14 +24,14 @@ export class PostagensController {
 
     @Put(':id')
     async atualizar(
-            @Param('id') id: number, 
+            @Param('id') id: string, 
             @Body() postagem: Postagem): Promise<Postagem> {
         postagem.id = id;
-        return this.postagemService.update(postagem);
+        return this.postagemService.update(id, postagem);
     }
 
     @Delete(':id')
-    deletar(@Param('id') id: number ) {
+    deletar(@Param('id') id: string ) {
         this.postagemService.deletar(id);
     }
 
