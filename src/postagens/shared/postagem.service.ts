@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { create } from 'domain';
 import { Model } from 'mongoose';
 import { Postagem } from './postagem';
 
@@ -9,15 +8,19 @@ export class PostagemService {
 
     constructor(
         @InjectModel('Postagem') private readonly postagemModel: Model<Postagem>
-        ) {}
+    ) { }
 
 
     async getAll() {
-        return await this.postagemModel.find().exec();
+        return await this.postagemModel.find({}, '-_id -__v').exec();
     }
 
-    getById(id: string) {
-        return this.postagemModel.findById(id).exec();
+    async getById(id: string) {
+        return await this.postagemModel.findById({ _id: id }, '-_id -__v').exec();
+    }
+
+    async getByAutor(autor: string) {
+        return await this.postagemModel.find({ autor: autor }, '-_id -__v').exec();
     }
 
     async create(postagem: Postagem) {
@@ -26,11 +29,11 @@ export class PostagemService {
     }
 
     async update(id: string, postagem: Postagem) {
-        await this.postagemModel.updateOne({ _id: id}, postagem).exec();
+        await this.postagemModel.updateOne({ _id: id }, postagem).exec();
         return this.getById(id);
     }
 
-    async deletar(id: string) {
+    async deletar(id: string) { 
         return await this.postagemModel.deleteOne({ _id: id }).exec();
     }
 }

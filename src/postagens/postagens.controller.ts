@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { Postagem } from './shared/postagem';
 import { PostagemService } from './shared/postagem.service';
 
-@Controller('postagens')
+@Controller('/postagens')
 export class PostagensController {
 
     constructor(private postagemService: PostagemService) {}
@@ -10,6 +10,11 @@ export class PostagensController {
     @Get()
     async getAll(): Promise<Postagem[]> {
         return this.postagemService.getAll();
+    }
+
+    @Get('/autor/:name')
+    async getByAutor(@Param('name') name: string): Promise<Postagem[]> {
+        return this.postagemService.getByAutor(name);
     }
 
     @Get(':id')
