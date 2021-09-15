@@ -3,10 +3,11 @@ import { UserService } from "./shared/user.service";
 
 @Controller('/user')
 export class UserController {
-    constructor(private userService: UserService){}
+
+    constructor(private userService: UserService) { }
 
     @Get()
-    async getAll(){
+    async getAll() {
         return this.userService.getAll();
     }
 }
