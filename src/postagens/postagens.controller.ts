@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { JwtAuthGuard } from './../auth/shared/jwt-auth.guard';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { Postagem } from './shared/postagem';
 import { PostagemService } from './shared/postagem.service';
 
@@ -7,6 +8,7 @@ export class PostagensController {
 
     constructor(private postagemService: PostagemService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async getAll(): Promise<Postagem[]> {
         return this.postagemService.getAll();
