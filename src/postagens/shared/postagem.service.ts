@@ -2,13 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Postagem } from './postagem';
-
+ 
 @Injectable()
 export class PostagemService {
 
-    constructor(
-        @InjectModel('Postagem') private readonly postagemModel: Model<Postagem>
-    ) { }
+    constructor(@InjectModel('Postagem') private readonly postagemModel: Model<Postagem>) {}
 
 
     async getAll() {
@@ -20,7 +18,7 @@ export class PostagemService {
     }
 
     async getByAutor(autor: string) {
-        return await this.postagemModel.find({ autor: autor }, '-_id -__v').exec();
+        return await this.postagemModel.find({ autor }, '-_id -__v').exec();
     }
 
     async create(postagem: Postagem) {
