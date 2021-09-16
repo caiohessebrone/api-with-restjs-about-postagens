@@ -1,5 +1,7 @@
 import { UserService } from './../../users/shared/user.service';
 import { JwtService } from '@nestjs/jwt';
+
+import * as bcrypt from 'bcrypt';
 /*
 https://docs.nestjs.com/providers#services
 */
@@ -15,7 +17,8 @@ export class AuthService {
 
     async validateUser(userEmail: string, userSenha: string) {
         const user = await this.userService.getByEmail(userEmail);
-        if(user && user.senha === userSenha) {
+        const match = await bcrypt.compare(userSenha, user.senha);
+        if(user && user.senha === userSenha && match) {
             const { _id, nome, email } = user;
             return { id: _id, nome, email };
         }
