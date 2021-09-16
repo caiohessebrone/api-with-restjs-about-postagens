@@ -9,12 +9,12 @@ export const UserSchema = new mongoose.Schema({
     email: { 
         type: String, 
         required: true,
-        unique: true,
+        index: {
+            unique: true,
+        }
     },
     senha: { 
         type: String, 
-        index: {
-            required: true,
-        }
+        required: true,
     }
 })
