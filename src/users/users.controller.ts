@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import { Controller, Get } from "@nestjs/common";
-import { UserService } from "./shared/user.service";
-
-@Controller('/user')
-export class UserController {
-    constructor(private userService: UserService){}
-
-    @Get()
-    async getAll(){
-        return this.userService.getAll();
-    }
-=======
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { UserService } from "./shared/user.service";
 import { Users } from "./shared/users";
@@ -47,5 +34,4 @@ export class UserController {
     deletar(@Param('id') id: string) {
         this.userService.deletar(id);
     }
->>>>>>> c4459d7586c8321f8558fceea788407580c0ab90
 }

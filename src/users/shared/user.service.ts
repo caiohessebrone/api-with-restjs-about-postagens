@@ -1,19 +1,11 @@
 import { Injectable } from "@nestjs/common";
-<<<<<<< HEAD
-
-=======
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Users } from './users';
->>>>>>> c4459d7586c8321f8558fceea788407580c0ab90
 
 //sera injetado dentro de outras classes
 @Injectable()
 export class UserService {
-<<<<<<< HEAD
-    getAll(){ return "Olá Usuarios"}
-
-=======
     
     constructor(
         @InjectModel('Users') private readonly userModel: Model<Users>
@@ -41,5 +33,5 @@ export class UserService {
     async deletar(id: string) {
         return await this.userModel.deleteOne({ _id: id}).exec();
     }
->>>>>>> c4459d7586c8321f8558fceea788407580c0ab90
+
 }

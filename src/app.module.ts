@@ -16,11 +16,8 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({ isGlobal: true }),
     PostagensModule,
     UserModule
-<<<<<<< HEAD
     ],
-=======
-  ],
->>>>>>> c4459d7586c8321f8558fceea788407580c0ab90
+
   controllers: [AppController],
   providers: [
     AppService],
