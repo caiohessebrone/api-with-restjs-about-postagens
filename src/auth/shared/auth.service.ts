@@ -1,3 +1,5 @@
+import { HttpStatus } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 import { UserService } from './../../users/shared/user.service';
 import { JwtService } from '@nestjs/jwt';
 
@@ -17,11 +19,21 @@ export class AuthService {
 
     async validateUser(userEmail: string, userSenha: string) {
         const user = await this.userService.getByEmail(userEmail);
-        const match = await bcrypt.compare(userSenha, user.senha);
-        if(user && user.senha === userSenha && match) {
+        let match: boolean = false;
+        if(user) {
+            match = await bcrypt.compare(userSenha, user.senha);
+        }
+
+        if(match) {
             const { _id, nome, email } = user;
             return { id: _id, nome, email };
+        } else {
+            throw new HttpException(
+                'Senha Incorreta',
+                HttpStatus.UNAUTHORIZED
+            )
         }
+
         return null;
     }
 
