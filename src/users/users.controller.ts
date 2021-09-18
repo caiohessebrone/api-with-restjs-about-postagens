@@ -14,6 +14,7 @@ export class UserController {
 
     @Post()
     async create(@Body() user: Users): Promise<Users> {
+        console.log(user.dataNascimento)
         return this.userService.create(user);
     }
 

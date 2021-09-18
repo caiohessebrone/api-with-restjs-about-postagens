@@ -16,5 +16,18 @@ export const UserSchema = new mongoose.Schema({
     senha: { 
         type: String, 
         required: true,
+    },
+    dtCadastro: {
+        type: Date,
+        default: Date.now
+    },
+    dataNascimento: {
+        type: Date,
+        required: true,
+    },
+    sexo: {
+        type: String,
+        enum: ["M","F","O"],
+        required: true,
     }
 })

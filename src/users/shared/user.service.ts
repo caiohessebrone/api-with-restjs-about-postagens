@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
+
 // properties imports
 import { Users } from './users';
 
@@ -26,6 +27,9 @@ export class UserService {
             nome: user.nome,
             senha: await bcrypt.hash(user.senha, saltOrRounds),
             email: user.email,
+            dtCadastro: user.dtCadastro,
+            dataNascimento: user.dataNascimento,
+            sexo: user.sexo
         }
         const createUser = new this.userModel(userEncryptSenha);
         return await createUser.save();
